@@ -90,7 +90,7 @@ elif dropdown == "MS Docs":
             st.error("Failed to process the file. Please try again.")
 
 elif dropdown == "PyTesseract":
-    st.sidebar.write("Upload an Image (JPG, PNG, TIFF, PDF)")
+    
     uploaded_file = st.sidebar.file_uploader("Choose a PDF file", type=["pdf"])
     if uploaded_file is not None:
         original_filename = uploaded_file.name
