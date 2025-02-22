@@ -91,8 +91,7 @@ elif dropdown == "MS Docs":
 
 elif dropdown == "PyTesseract":
     st.sidebar.write("Upload an Image (JPG, PNG, TIFF, PDF)")
-    uploaded_file = st.sidebar.file_uploader("Choose an image or PDF", type=["jpg", "png", "tiff", "pdf"], key="pytesseract_uploader")
-
+    uploaded_file = st.sidebar.file_uploader("Choose a PDF file", type=["pdf"])
     if uploaded_file is not None:
         original_filename = uploaded_file.name
         file_name, file_extension = os.path.splitext(original_filename)
@@ -135,7 +134,7 @@ elif dropdown == "APIFY":
 
                 st.success("Webpage successfully scraped and uploaded to S3!")
 
-                # Generate S3 Folder Access Link
+                
                 file_name = os.path.splitext(os.path.basename(url))[0]
                 folder_prefix = f"Webpages/{file_name}/"
                 aws_console_url = f"https://us-east-2.console.aws.amazon.com/s3/buckets/{S3_BUCKET_NAME}?region=us-east-2&prefix={urllib.parse.quote(folder_prefix)}"
