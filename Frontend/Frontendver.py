@@ -27,7 +27,7 @@ s3_client = boto3.client(
 )
 
 dropdown = st.sidebar.selectbox("Select the API endpoint", [
-    "PyMuPDF", "BeautifulSoup", "Extract LXML", "MS Docs","Pytesseract","APIFY"
+    "PyMuPDF", "BeautifulSoup", "Extract LXML", "MS Docs","Pytesseract"
 ])
 
 if dropdown == "PyMuPDF":
@@ -90,8 +90,9 @@ elif dropdown == "MS Docs":
             st.error("Failed to process the file. Please try again.")
 
 elif dropdown == "PyTesseract":
+    uploaded_file = st.sidebar.file_uploader("Choose a PDF file", type=["pdf"], key="pytesseract_pdf_uploader")
+
     
-    uploaded_file = st.sidebar.file_uploader("Choose a PDF file", type=["pdf"])
     if uploaded_file is not None:
         original_filename = uploaded_file.name
         file_name, file_extension = os.path.splitext(original_filename)
@@ -116,34 +117,6 @@ elif dropdown == "PyTesseract":
         else:
             st.error(" Failed to process the file. Please try again.")
 
-elif dropdown == "APIFY":
-    st.sidebar.write("Enter the URL to scrape:")
-    url = st.sidebar.text_input("Enter the webpage URL", key="apify_scraper_url")
-
-    if url:
-        response = requests.post(f"{BASE_API_URL}/apify-scrape/", json={"url": url})  
-
-        if response.status_code == 200:
-            try:
-                dt = response.json()
-                scrape_status = dt.get("message", "Scraping completed!") if isinstance(dt, dict) else str(dt)
-
-                st.write("### Scrape Status")
-                preview_length = min(1000, len(scrape_status))
-                st.text_area("Scrape Log", scrape_status[:preview_length] + "...", height=150)
-
-                st.success("Webpage successfully scraped and uploaded to S3!")
-
-                
-                file_name = os.path.splitext(os.path.basename(url))[0]
-                folder_prefix = f"Webpages/{file_name}/"
-                aws_console_url = f"https://us-east-2.console.aws.amazon.com/s3/buckets/{S3_BUCKET_NAME}?region=us-east-2&prefix={urllib.parse.quote(folder_prefix)}"
-                st.markdown(f"[Click here to access the folder in S3]({aws_console_url})", unsafe_allow_html=True)
-
-            except Exception as e:
-                st.error(f"Error while processing API response: {str(e)}")
-        else:
-            st.error(f"Failed to scrape the webpage. Server Response: {response.text}")
 
 
 
