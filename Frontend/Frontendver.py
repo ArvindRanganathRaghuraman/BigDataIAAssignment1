@@ -9,6 +9,7 @@ st.title("Welcome to DocGPT API Frontend")
 st.header("Choose a function to process your document")
 
 BASE_API_URL = "https://backend-image-416252648166.us-central1.run.app/"
+#BASE_API_URL = "http://127.0.0.1:8000/docs"
 S3_BUCKET_NAME = "document-parsed-files-1"
 S3_PDF_OBJECT = "PDF_Files"
 AWS_REGION = "us-east-2"
@@ -26,7 +27,7 @@ s3_client = boto3.client(
 )
 
 dropdown = st.sidebar.selectbox("Select the API endpoint", [
-    "PyMuPDF", "BeautifulSoup", "Extract LXML", "MS Docs", "PyTesseract", "APIFY", "MarkItDown"
+    "PyMuPDF", "BeautifulSoup", "Extract LXML", "MS Docs"
 ])
 
 if dropdown == "PyMuPDF":
@@ -42,7 +43,7 @@ if dropdown == "PyMuPDF":
             aws_console_url = f"https://us-east-2.console.aws.amazon.com/s3/buckets/{S3_BUCKET_NAME}?region=us-east-2&prefix={urllib.parse.quote(folder_prefix)}"
             st.markdown(f"[Click here to access the folder in S3]({aws_console_url})", unsafe_allow_html=True)
         else:
-            st.error("❌ Failed to process the file. Please try again.")
+            st.error(" Failed to process the file. Please try again.")
 
 elif dropdown == "BeautifulSoup":
     st.sidebar.write("Enter the URL of the PDF:")
@@ -88,7 +89,7 @@ elif dropdown == "MS Docs":
         else:
             st.error("Failed to process the file. Please try again.")
 
-elif dropdown == "PyTesseract":
+'''elif dropdown == "PyTesseract":
     st.sidebar.write("Upload an Image (JPG, PNG, TIFF, PDF)")
     uploaded_file = st.sidebar.file_uploader("Choose an image or PDF", type=["jpg", "png", "tiff", "pdf"], key="pytesseract_uploader")
 
@@ -112,9 +113,9 @@ elif dropdown == "PyTesseract":
                 aws_console_url = f"https://us-east-2.console.aws.amazon.com/s3/buckets/{S3_BUCKET_NAME}?region=us-east-2&prefix={urllib.parse.quote(folder_prefix)}"
                 st.markdown(f"[Click here to access the folder in S3]({aws_console_url})", unsafe_allow_html=True)
             except Exception as e:
-                st.error(f"❌ Error while processing API response: {str(e)}")
+                st.error(f"Error while processing API response: {str(e)}")
         else:
-            st.error("❌ Failed to process the file. Please try again.")
+            st.error(" Failed to process the file. Please try again.")'''
 
 
                 
