@@ -89,10 +89,8 @@ elif dropdown == "MS Docs":
         else:
             st.error("Failed to process the file. Please try again.")
 
-elif dropdown == "PyTesseract":
+elif dropdown == "Pytesseract":
     uploaded_file = st.sidebar.file_uploader("Choose a PDF file", type=["pdf"], key="pytesseract_pdf_uploader")
-
-    
     if uploaded_file is not None:
         original_filename = uploaded_file.name
         file_name, file_extension = os.path.splitext(original_filename)
